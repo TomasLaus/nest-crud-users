@@ -7,7 +7,7 @@ import { BookmarkModule } from './bookmark/bookmark.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}),
+    ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     UserModule,
     BookmarkModule,
