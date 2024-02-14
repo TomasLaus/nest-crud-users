@@ -57,8 +57,8 @@ $ npm start
 
 ```bash
 # run tests
-$ npm db:test:restart
-$ npm test:e2e
+$ npm run db:test:restart
+$ npm run test:e2e
 ```
 
 ```bash
