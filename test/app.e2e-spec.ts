@@ -7,6 +7,7 @@ import {
 import { PrismaService } from '../src/prisma/prisma.service';
 import * as pactum from 'pactum';
 import { AuthDto } from 'src/auth/dto';
+import { EditUserDto } from 'src/user/dto';
 
 describe('App (e2e)', () => {
   let app: INestApplication;
@@ -49,7 +50,6 @@ describe('App (e2e)', () => {
   // tests
   describe('Auth', () => {
     describe('Signup', () => {
-
       it('should throw exception if email empty', () => {
         return pactum
           .spec()
@@ -88,8 +88,6 @@ describe('App (e2e)', () => {
     });
 
     describe('Signin', () => {
-
-
       it('should throw exception if email empty', () => {
         return pactum
           .spec()
@@ -125,14 +123,43 @@ describe('App (e2e)', () => {
           .withBody(dto)
           .expectStatus(200)
           .stores('userAt', 'access_token');
-          
       });
     });
   });
 
   describe('Users', () => {
-    describe('Get me', () => {});
-    describe('Edit user', () => {});
+    
+    
+    describe('Get me', () => {
+      it('should get current user', () => {
+        return pactum
+          .spec()
+          .get('/users/me')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .expectStatus(200);
+      });
+    });
+
+
+    describe('Edit user', () => {
+      it('should get current user', () => {
+        const dto: EditUserDto = {
+          firstName: 'John',
+          email: 'Q7S1H@example.com',
+        }
+        return pactum
+          .spec()
+          .patch('/users')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBodyContains(dto.email);
+      });
+    });
   });
 
   describe('Bookmarks', () => {
